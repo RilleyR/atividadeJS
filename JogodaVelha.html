@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da Velha</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        #board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-gap: 5px;
+            margin-top: 20px;
+        }
+
+        .cell {
+            width: 100px;
+            height: 100px;
+            font-size: 24px;
+            cursor: pointer;
+            border: 1px solid #ccc;
+        }
+
+        #status {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+<body>
+
+    <h2>Jogo da Velha com jQuery</h2>
+
+    <div id="status">Vez do Jogador X</div>
+
+    <div id="board">
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+    </div>
+
+    <script>
+        var currentPlayer = 'X';
+        var board = ['', '', '', '', '', '', '', '', ''];
+        var gameOver = false;
+
+        $(document).ready(function() {
+            $('.cell').on('click', function() {
+                var index = $(this).index();
+
+                if (!gameOver && board[index] === '') {
+                    board[index] = currentPlayer;
+                    $(this).text(currentPlayer);
+
+                    if (checkWinner()) {
+                        $('#status').text(`Jogador ${currentPlayer} venceu!`);
+                        gameOver = true;
+                    } else if (board.every(cell => cell !== '')) {
+                        $('#status').text('Empate!');
+                        gameOver = true;
+                    } else {
+                        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                        $('#status').text(`Vez do Jogador ${currentPlayer}`);
+                    }
+                }
+            });
+        });
+
+        function checkWinner() {
+            const winConditions = [
+                [0, 1, 2],
+                [3, 4, 5],
+                [6, 7, 8],
+                [0, 3, 6],
+                [1, 4, 7],
+                [2, 5, 8],
+                [0, 4, 8],
+                [2, 4, 6]
+            ];
+
+            return winConditions.some(condition =>
+                board[condition[0]] !== '' &&
+                board[condition[0]] === board[condition[1]] &&
+                board[condition[1]] === board[condition[2]]
+            );
+        }
+    </script>
+
+</body>
+</html>
+

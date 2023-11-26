@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor de Temperatura</title>
+    <style>
+        input, button {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Conversor de Temperatura</h2>
+
+    <label for="tempInput">Temperatura:</label>
+    <input type="number" id="tempInput">
+
+    <label for="tempScale">Escala:</label>
+    <select id="tempScale">
+        <option value="celsius">Celsius</option>
+        <option value="fahrenheit">Fahrenheit</option>
+    </select>
+
+    <button onclick="converterTemperatura()">Converter</button>
+
+    <p id="resultado"></p>
+
+    <script>
+        function converterTemperatura() {
+            var temperatura = parseFloat(document.getElementById("tempInput").value);
+            var escala = document.getElementById("tempScale").value;
+            var resultadoElement = document.getElementById("resultado");
+
+            var resultado;
+
+            if (escala === "celsius") {
+                // Converter Celsius para Fahrenheit: F = (C * 9/5) + 32
+                resultado = (temperatura * 9/5) + 32;
+                resultadoElement.textContent = `${temperatura} graus Celsius é igual a ${resultado.toFixed(2)} graus Fahrenheit.`;
+            } else if (escala === "fahrenheit") {
+                // Converter Fahrenheit para Celsius: C = (F - 32) * 5/9
+                resultado = (temperatura - 32) * 5/9;
+                resultadoElement.textContent = `${temperatura} graus Fahrenheit é igual a ${resultado.toFixed(2)} graus Celsius.`;
+            } else {
+                resultadoElement.textContent = "Escala inválida";
+            }
+        }
+    </script>
+
+</body>
+</html>
